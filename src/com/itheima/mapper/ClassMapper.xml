@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace表示命名空间 -->
+<mapper namespace="com.itheima.mapper.clssMapper">
+	<!-- 一对多：查看某一用户及其关联的学生信息 
+	      注意：当关联查询出的列名相同，则需要使用别名区分 -->
+	<select id="findClassWithStuents" parameterType="Integer" 
+						   resultMap="ClassWithStudentsResult">
+		SELECT c.*,s.id as student_id,s.name,s.birthday,s.sex 
+		from student s,class c 
+		WHERE c.id=s.class_id 
+         and c.id=#{id}
+	</select>
+	<resultMap type="Class" id="ClassWithStudentsResult">
+		<id property="id" column="id"/>
+		<result property="specialty" column="specialty"/>
+		<result property="gradeno" column="gradeno"/>
+		<result property="classno" column="classno"/>
+		<!-- 一对多关联映射：collection 
+			ofType表示属性集合中元素的类型，List<Student>属性即Student类 -->
+		<collection property="studentlist" ofType="Student">
+			<id property="id" column="student_id"/>
+			<result property="name" column="name"/>
+			<result property="birthday" column="birthday"/>
+			<result property="sex" column="sex"/>
+		</collection>
+	</resultMap>
+</mapper>

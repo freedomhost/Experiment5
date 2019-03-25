@@ -1,0 +1,43 @@
+Create table student(
+id int primary key auto_increment,
+name varchar(8),
+birthday date,
+sex varchar(2),
+class_id int,
+foreign key(class_id) references class(id)
+);
+
+Create table class(
+id int primary key auto_increment,
+specialty varchar(40),
+gradeno int,
+classno int
+);
+
+create table course(
+id int primary key auto_increment,
+name varchar(20)
+);
+
+create table stu_course(
+id int primary key auto_increment,
+student_id int,
+course_id int,
+foreign key(student_id) references student(id),
+foreign key(course_id) references course(id)
+);
+
+Insert into student values(1,'Tom','1997-1-1','M',1);
+Insert into student values(2,'John','1997-10-10','M',1);
+Insert into student values(3,'Lucy','1998-6-12','F',2);
+
+Insert into class values(1,'Computer',15,1);
+Insert into class values(2,'Computer',15,2);
+
+Insert into course values(1,'Java Programming');
+Insert into course values(2,'Python');
+
+Insert into stu_course values(1,1,1);
+Insert into stu_course values(2,1,2);
+Insert into stu_course values(3,2,1);
+Insert into stu_course values(4,3,2);

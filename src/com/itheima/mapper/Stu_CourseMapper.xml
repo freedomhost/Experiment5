@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.itheima.mapper.Stu_CourseMapper">	
+	<!-- 多对多嵌套结果查询：查询某学生及其关联的选课详情 -->
+	<select id="findStudentWithCourse" parameterType="Integer" 
+	         resultMap="StudentWithCourse">
+	    select s.*,c.id as cid,c.name as cname
+	    from student s,course c,stu_course sc
+	    WHERE sc.student_id=s.id 
+	    and sc.course_id=c.id 
+	    and s.id=#{id}
+	</select>
+	<!-- 自定义手动映射类型 -->
+	<resultMap type="Student" id="StudentWithCourse">
+	    <id property="id" column="id" />
+	    <result property="name" column="name" />
+	    <result property="birthday" column="birthday" />
+	    <result property="sex" column="sex" />
+	    <!-- 多对多关联映射：collection -->
+	    <collection property="courselist" ofType="Course">
+	        <id property="id" column="cid" />
+	        <result property="name" column="cname" />	        
+	    </collection>
+	</resultMap>
+	
+</mapper>
